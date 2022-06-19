@@ -52,3 +52,7 @@
 #new-quote button {
   color: #fff;
 }
+
+#tweet-quote i {
+  font-size: 48px;
+}

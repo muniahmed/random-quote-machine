@@ -12,6 +12,16 @@ class QuoteMachine extends React.Component {
     }
 
 
+
+    getQuotes() {
+        console.log("Clicked");
+        fetch("https://zenquotes.io/api/random")
+            .then(res => res.json())
+            .then((result) => {
+                console.log(result.q)
+            })
+
+    }
     changeColor() {
         let colors = [
             '#1abc9c',
@@ -33,6 +43,7 @@ class QuoteMachine extends React.Component {
     }
 
     handleClick() {
+        this.getQuotes();
         this.changeColor();
     }
 
@@ -57,7 +68,7 @@ class QuoteMachine extends React.Component {
                                     href="https://www.twitter.com/intent/tweet"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                ><i className="fa-brands fa-twitter-square fa-3x" style={{ color: this.state.color, transition: '1s' }}></i>
+                                ><i className="fa-brands fa-twitter-square" style={{ color: this.state.color, transition: '1s' }}></i>
                                 </a>
                             </div>
                             <div id="new-quote" className="button" >
