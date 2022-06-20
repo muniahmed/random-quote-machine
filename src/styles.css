@@ -19,11 +19,6 @@
   position: relative;
 }
 
-#text-wrapper {
-  animation-name: fade;
-  animation-duration: 2s;
-}
-
 #text-box {
   font-family: "Lato", sans-serif;
 }
@@ -60,14 +55,4 @@
 
 #tweet-quote i {
   font-size: 48px;
-}
-
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
 }
