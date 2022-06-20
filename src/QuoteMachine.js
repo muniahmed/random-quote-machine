@@ -4,24 +4,36 @@ class QuoteMachine extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            quote: "This is the current quote",
-            author: "Author Name",
+            quote: "",
+            author: "",
             color: '#2ecc71'
         };
         this.handleClick = this.handleClick.bind(this);
     }
 
 
-
-    getQuotes() {
-        console.log("Clicked");
-        fetch("https://zenquotes.io/api/random")
-            .then(res => res.json())
-            .then((result) => {
-                console.log(result.q)
+    changeQuote() {
+        fetch("https://type.fit/api/quotes")
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    console.error("Not successful");
+                }
             })
-
+            .then((result) => {
+                let quote = this.pickRandom(result);
+                this.setState({
+                    quote: quote.text,
+                    author: quote.author
+                });
+            })
     }
+
+    pickRandom(arr) {
+        return arr[(Math.floor(Math.random() * arr.length))];
+    }
+
     changeColor() {
         let colors = [
             '#1abc9c',
@@ -31,34 +43,40 @@ class QuoteMachine extends React.Component {
             '#e67e22',
             '#e74c3c',
             '#ccae62'];
-        let color = Math.floor(Math.random() * colors.length);
+        let color = this.pickRandom(colors);
         this.setState({
-            color: colors[color]
+            color: color
         })
     }
 
     componentDidMount() {
-        this.changeColor()
+        this.changeQuote();
+        this.changeColor();
 
     }
 
     handleClick() {
-        this.getQuotes();
         this.changeColor();
+        this.changeQuote();
+
+
     }
 
     render() {
 
         return (
             < div id="QuoteMachine" >
-                <div id="wrapper" className="d-flex align-items-center justify-content-center" style={{ backgroundColor: this.state.color, transition: '1s' }}>
-                    <div id="quote-box" style={{ color: this.state.color, transition: '1s' }}>
-                        <i className="fa-solid fa-quote-left fa-xl"></i>
-                        <div id="text-box" className="text-center">
-                            <h1 id="text">{this.state.quote}</h1>
-                        </div>
-                        <div id="author-box" className="text-right">
-                            <p id="author">-{this.state.author}</p>
+                <div id="wrapper" className="d-flex align-items-center justify-content-center" style={{ backgroundColor: this.state.color, transition: '2s' }}>
+                    <div id="quote-box" style={{ color: this.state.color, transition: '2s' }}>
+
+                        <div key={this.state.quote} id="text-wrapper">
+                            <i className="fa-solid fa-quote-left fa-xl"></i>
+                            <div id="text-box" className="text-center">
+                                <h1 id="text">{this.state.quote}</h1>
+                            </div>
+                            <div id="author-box" className="text-right">
+                                <p id="author" >-{this.state.author}</p>
+                            </div>
                         </div>
 
                         <div className="buttons">
@@ -68,24 +86,13 @@ class QuoteMachine extends React.Component {
                                     href="https://www.twitter.com/intent/tweet"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                ><i className="fa-brands fa-twitter-square" style={{ color: this.state.color, transition: '1s' }}></i>
+                                ><i className="fa-brands fa-twitter-square" style={{ color: this.state.color, transition: '2s' }}></i>
                                 </a>
                             </div>
                             <div id="new-quote" className="button" >
-                                <button className="btn" onClick={this.handleClick} style={{ backgroundColor: this.state.color, transition: '1s' }}>New Quote</button>
+                                <button className="btn" onClick={this.handleClick} style={{ backgroundColor: this.state.color, transition: '2s' }}>New Quote</button>
                             </div>
                         </div>
-                    </div>
-
-                    <div style={{ display: 'flex' }}>
-                        <p>Inspirational quotes provided by &nbsp;</p>
-                        <a
-                            href="https://zenquotes.io/"
-                            target="_blank"
-                            style={{ textDecoration: 'none', color: '#fff' }}
-                            rel="noopener noreferrer"
-                        >ZenQuotes API</a
-                        >
                     </div>
                 </div>
             </div >
