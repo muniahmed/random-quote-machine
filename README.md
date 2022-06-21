@@ -1,4 +1,4 @@
-#Random Quote Machine
+# Random Quote Machine
 
 This React App displays inspirational quotes to give you some motivation throughout your day.
 
